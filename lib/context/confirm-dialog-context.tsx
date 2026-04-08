@@ -19,6 +19,11 @@ interface ConfirmContextType {
 
 const ConfirmDialogContext = createContext<ConfirmContextType | undefined>(undefined)
 
+/**
+ * Confirm Dialog Provider 컴포넌트
+ * 타입 안전한 확인 대화상자를 제공합니다
+ * @param children - Provider로 감싸질 자식 요소들
+ */
 export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const [state, setState] = useState<ConfirmOptions>({
@@ -61,6 +66,11 @@ export function ConfirmDialogProvider({ children }: { children: ReactNode }) {
   return <ConfirmDialogContext.Provider value={value}>{children}</ConfirmDialogContext.Provider>
 }
 
+/**
+ * Confirm Dialog Context 훅
+ * @returns Context의 모든 state와 handler 함수들
+ * @throws ConfirmDialogProvider 외부에서 호출하면 에러 발생
+ */
 export function useConfirmDialog() {
   const context = useContext(ConfirmDialogContext)
   if (!context) {
@@ -69,6 +79,13 @@ export function useConfirmDialog() {
   return context
 }
 
+/**
+ * Confirm 대화상자를 표시하고 사용자 선택을 반환하는 훅
+ * @returns 제목, 설명, 버튼 텍스트를 받아 boolean Promise를 반환하는 함수
+ * @example
+ * const confirm = useConfirm()
+ * const result = await confirm('삭제하시겠습니까?', '이 작업은 되돌릴 수 없습니다')
+ */
 export function useConfirm() {
   const { showConfirm } = useConfirmDialog()
   return useCallback(

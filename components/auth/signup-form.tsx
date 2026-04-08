@@ -10,9 +10,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { signupSchema, type SignupInput } from '@/lib/validations/auth'
+import { AUTH_ACTION_MESSAGES } from '@/lib/constants/auth-messages'
 import { signupAction } from '@/app/actions/auth'
 import Link from 'next/link'
 
+/**
+ * 회원가입 폼 컴포넌트
+ * 이름, 이메일, 비밀번호로 새 사용자를 생성합니다
+ */
 export function SignupForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -37,10 +42,10 @@ export function SignupForm() {
         return
       }
 
-      toast.success('회원가입되었습니다. 로그인 페이지로 이동합니다.')
+      toast.success(AUTH_ACTION_MESSAGES.SIGNUP_SUCCESS)
       router.push(result.data.redirectUrl)
     } catch {
-      toast.error('요청 처리 중 오류가 발생했습니다')
+      toast.error(AUTH_ACTION_MESSAGES.GENERIC_ERROR)
     } finally {
       setIsLoading(false)
     }

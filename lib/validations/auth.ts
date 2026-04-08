@@ -1,13 +1,14 @@
 import { z } from 'zod'
+import { AUTH_VALIDATION_MESSAGES } from '@/lib/constants/auth-messages'
 
 // 로그인 폼 스키마
 export const loginSchema = z.object({
-  email: z.string().email('올바른 이메일을 입력해주세요').toLowerCase(),
+  email: z.string().email(AUTH_VALIDATION_MESSAGES.EMAIL_INVALID).toLowerCase(),
   password: z
     .string()
-    .min(8, '비밀번호는 8자 이상이어야 합니다')
-    .regex(/[A-Z]/, '대문자를 포함해야 합니다')
-    .regex(/[0-9]/, '숫자를 포함해야 합니다'),
+    .min(8, AUTH_VALIDATION_MESSAGES.PASSWORD_MIN_LENGTH)
+    .regex(/[A-Z]/, AUTH_VALIDATION_MESSAGES.PASSWORD_UPPERCASE)
+    .regex(/[0-9]/, AUTH_VALIDATION_MESSAGES.PASSWORD_NUMBER),
 })
 
 export type LoginInput = z.infer<typeof loginSchema>
@@ -15,17 +16,17 @@ export type LoginInput = z.infer<typeof loginSchema>
 // 회원가입 폼 스키마
 export const signupSchema = z
   .object({
-    name: z.string().min(2, '이름은 2자 이상이어야 합니다').max(50),
-    email: z.string().email('올바른 이메일을 입력해주세요').toLowerCase(),
+    name: z.string().min(2, AUTH_VALIDATION_MESSAGES.NAME_MIN_LENGTH).max(50),
+    email: z.string().email(AUTH_VALIDATION_MESSAGES.EMAIL_INVALID).toLowerCase(),
     password: z
       .string()
-      .min(8, '비밀번호는 8자 이상이어야 합니다')
-      .regex(/[A-Z]/, '대문자를 포함해야 합니다')
-      .regex(/[0-9]/, '숫자를 포함해야 합니다'),
+      .min(8, AUTH_VALIDATION_MESSAGES.PASSWORD_MIN_LENGTH)
+      .regex(/[A-Z]/, AUTH_VALIDATION_MESSAGES.PASSWORD_UPPERCASE)
+      .regex(/[0-9]/, AUTH_VALIDATION_MESSAGES.PASSWORD_NUMBER),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: '비밀번호가 일치하지 않습니다',
+    message: AUTH_VALIDATION_MESSAGES.PASSWORD_MISMATCH,
     path: ['confirmPassword'],
   })
 

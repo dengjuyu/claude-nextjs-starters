@@ -10,9 +10,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { loginSchema, type LoginInput } from '@/lib/validations/auth'
+import { AUTH_ACTION_MESSAGES } from '@/lib/constants/auth-messages'
 import { loginAction } from '@/app/actions/auth'
 import Link from 'next/link'
 
+/**
+ * 로그인 폼 컴포넌트
+ * 이메일과 비밀번호로 사용자를 인증합니다
+ */
 export function LoginForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -35,10 +40,10 @@ export function LoginForm() {
         return
       }
 
-      toast.success('로그인되었습니다')
+      toast.success(AUTH_ACTION_MESSAGES.LOGIN_SUCCESS)
       router.push(result.data.redirectUrl)
     } catch {
-      toast.error('요청 처리 중 오류가 발생했습니다')
+      toast.error(AUTH_ACTION_MESSAGES.GENERIC_ERROR)
     } finally {
       setIsLoading(false)
     }

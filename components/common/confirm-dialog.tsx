@@ -4,6 +4,15 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from '@/components/ui/button'
 import { useConfirmDialog } from '@/lib/context/confirm-dialog-context'
 
+/**
+ * Confirm Dialog 컴포넌트
+ * ConfirmDialogProvider와 함께 사용하여 타입 안전한 확인 대화상자를 렌더링합니다
+ *
+ * 사용법:
+ * - ConfirmDialogProvider로 앱을 감싼 후
+ * - 내부 어딘가에 ConfirmDialog를 배치
+ * - useConfirm() 훅을 사용하여 대화상자를 표시
+ */
 export function ConfirmDialog() {
   const { state, handleConfirm, handleCancel, setOpen } = useConfirmDialog()
 
