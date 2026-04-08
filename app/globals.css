@@ -125,6 +125,10 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    /* 맑은고딕(Windows) → Apple SD Gothic Neo(macOS) → Noto Sans KR(웹 폴백) 순서 */
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', var(--font-noto-sans-kr), var(--font-geist-sans), sans-serif;
+  }
+  code, pre, kbd, samp {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
   }
 }
