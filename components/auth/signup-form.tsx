@@ -39,7 +39,7 @@ export function SignupForm() {
 
       toast.success('회원가입되었습니다. 로그인 페이지로 이동합니다.')
       router.push(result.data.redirectUrl)
-    } catch (error) {
+    } catch {
       toast.error('요청 처리 중 오류가 발생했습니다')
     } finally {
       setIsLoading(false)

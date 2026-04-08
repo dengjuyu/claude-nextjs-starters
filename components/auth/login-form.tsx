@@ -8,7 +8,6 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ErrorMessage } from '@/components/common/error-message'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { loginSchema, type LoginInput } from '@/lib/validations/auth'
 import { loginAction } from '@/app/actions/auth'
@@ -38,7 +37,7 @@ export function LoginForm() {
 
       toast.success('로그인되었습니다')
       router.push(result.data.redirectUrl)
-    } catch (error) {
+    } catch {
       toast.error('요청 처리 중 오류가 발생했습니다')
     } finally {
       setIsLoading(false)

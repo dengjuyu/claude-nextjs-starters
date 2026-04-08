@@ -1,7 +1,7 @@
 'use server'
 
 import { loginSchema, signupSchema } from '@/lib/validations/auth'
-import type { ActionResult, User } from '@/types'
+import type { ActionResult } from '@/types'
 
 export async function loginAction(formData: unknown): Promise<ActionResult<{ redirectUrl: string }>> {
   try {
@@ -11,8 +11,6 @@ export async function loginAction(formData: unknown): Promise<ActionResult<{ red
     // - DB에서 사용자 확인
     // - 비밀번호 검증
     // - 세션/토큰 생성
-
-    console.log('로그인 시도:', validatedData.email)
 
     return {
       success: true,
@@ -43,8 +41,6 @@ export async function signupAction(formData: unknown): Promise<ActionResult<{ re
     // - 비밀번호 해싱
     // - 사용자 생성
     // - 확인 이메일 전송
-
-    console.log('회원가입 시도:', validatedData.email)
 
     return {
       success: true,

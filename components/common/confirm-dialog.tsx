@@ -1,53 +1,14 @@
 'use client'
 
-import { ReactNode, useCallback, useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-
-let resolveConfirm: ((value: boolean) => void) | null = null
+import { useConfirmDialog } from '@/lib/context/confirm-dialog-context'
 
 export function ConfirmDialog() {
-  const [open, setOpen] = useState(false)
-  const [state, setState] = useState<{
-    title: string
-    description?: string
-    confirmText?: string
-    cancelText?: string
-  }>({
-    title: '확인',
-  })
-
-  const handleConfirm = useCallback(() => {
-    if (resolveConfirm) {
-      resolveConfirm(true)
-      resolveConfirm = null
-    }
-    setOpen(false)
-  }, [])
-
-  const handleCancel = useCallback(() => {
-    if (resolveConfirm) {
-      resolveConfirm(false)
-      resolveConfirm = null
-    }
-    setOpen(false)
-  }, [])
-
-  ;(window as any).__showConfirm = (
-    title: string,
-    description?: string,
-    confirmText?: string,
-    cancelText?: string,
-  ) => {
-    setState({ title, description, confirmText, cancelText })
-    setOpen(true)
-    return new Promise<boolean>((resolve) => {
-      resolveConfirm = resolve
-    })
-  }
+  const { state, handleConfirm, handleCancel, setOpen } = useConfirmDialog()
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={state.open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{state.title}</DialogTitle>
@@ -64,8 +25,4 @@ export function ConfirmDialog() {
   )
 }
 
-export function useConfirm() {
-  return useCallback(async (title: string, description?: string, confirmText?: string, cancelText?: string) => {
-    return (window as any).__showConfirm?.(title, description, confirmText, cancelText) ?? false
-  }, [])
-}
+export { useConfirm } from '@/lib/context/confirm-dialog-context'
